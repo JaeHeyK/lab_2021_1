@@ -7,6 +7,8 @@
 
 using namespace std;
 
+const double epsilon = 0.00000001;
+
 class Point3D {
 public:
   double x;
@@ -14,9 +16,9 @@ public:
   double z;
   Point3D(double _x = 0.0, double _y = 0.0, double _z = 0.0) : x(_x), y(_y), z(_z) {}
   const bool isEqual(const Point3D& other) {
-    bool isXEqual = (abs(x - other.x) < 0.0000001);
-    bool isYEqual = (abs(y - other.y) < 0.0000001);
-    bool isZEqual = (abs(z - other.z) < 0.0000001);
+    bool isXEqual = (abs(x - other.x) < epsilon);
+    bool isYEqual = (abs(y - other.y) < epsilon);
+    bool isZEqual = (abs(z - other.z) < epsilon);
     return (isXEqual && isYEqual && isZEqual);
   }
 };
@@ -28,7 +30,7 @@ const double getSqaureDistance(Point3D& p1, Point3D& p2) {
 }
 
 Point3D getMidPoint(Point3D& p1, Point3D& p2) {
-  return Point3D((p1.x+p2.x)/2, (p1.y+p2.y)/2,(p1.z+p2.z)/2);
+  return Point3D((p1.x+p2.x)/2.0, (p1.y+p2.y)/2.0,(p1.z+p2.z)/2.0);
 }
 
 Point3D closestPoint(Point3D& startPoint, Point3D& stationPoint1, Point3D& stationPoint2) {
@@ -71,7 +73,7 @@ double closestDistance(Point3D& prevStartPoint, Point3D& currentStartPoint, int 
 
 double roundWithEpsilon(double original) {
   double floored = floor(original);
-  if ((original - floored) < 0.0000001) {
+  if ((original - floored) < epsilon) {
     return floored;
   } else {
     return floored+1;
