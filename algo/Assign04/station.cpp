@@ -41,8 +41,7 @@ Point3D closestPoint(Point3D& startPoint, Point3D& stationPoint1, Point3D& stati
   if(stationPoint1.isEqual(stationPoint2)) {
     return stationPoint1;
   }
-   if(sPointDistanceSqaure1 >= sPointDistanceSqaure2 + sLengthSqaure) {
-     
+  if(sPointDistanceSqaure1 >= sPointDistanceSqaure2 + sLengthSqaure) {
     return stationPoint2;
   } else if(sPointDistanceSqaure2 >= sPointDistanceSqaure1 + sLengthSqaure) {
     return stationPoint1;

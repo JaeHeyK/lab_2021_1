@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const double epsilon = 0.00000001;
+const double EPSILON = 0.00000001;
 
 class Point3D {
 public:
@@ -16,9 +16,9 @@ public:
   double z;
   Point3D(double _x = 0.0, double _y = 0.0, double _z = 0.0) : x(_x), y(_y), z(_z) {}
   const bool isEqual(const Point3D& other) {
-    bool isXEqual = (abs(x - other.x) < epsilon);
-    bool isYEqual = (abs(y - other.y) < epsilon);
-    bool isZEqual = (abs(z - other.z) < epsilon);
+    bool isXEqual = (abs(x - other.x) < EPSILON);
+    bool isYEqual = (abs(y - other.y) < EPSILON);
+    bool isZEqual = (abs(z - other.z) < EPSILON);
     return (isXEqual && isYEqual && isZEqual);
   }
 };
@@ -73,7 +73,7 @@ double closestDistance(Point3D& prevStartPoint, Point3D& currentStartPoint, int 
 
 double roundWithEpsilon(double original) {
   double floored = floor(original);
-  if ((original - floored) < epsilon) {
+  if ((original - floored) < EPSILON) {
     return floored;
   } else {
     return floored+1;
