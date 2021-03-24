@@ -21,19 +21,22 @@ int main() {
 
   in >> height >> width;
  
-  //int field[height][width];
-  int** field = new int*[height];
-   for(int row = 0; row < height; row++) {
-    field[row] = new int[width];
-  }
+  int field[height][width];
 
-  string rowString;
+  // string rowString;
 
+  // for(int row = height - 1; row >= 0; row--) {
+  //   in >> rowString;
+
+  //   for(int col = 0; col < width; col++) {
+  //     field[row][col] = (int)(rowString[col] - 48)-1;
+  //   }
+  // }
+  char num;
   for(int row = height - 1; row >= 0; row--) {
-    in >> rowString;
-
     for(int col = 0; col < width; col++) {
-      field[row][col] = (int)(rowString[col] - 48)-1;
+      in >> num;
+      field[row][col] = (int)(num - 48)-1;
     }
   }
 
@@ -67,12 +70,6 @@ int main() {
   for(auto pivot : maxAreaPivots) {
     out << pivot.first+1 << " " << pivot.second+1 << "\n";
   }
-
-  for(int row = 0; row < height; row++) {
-    delete[] field[row];
-  }
-  delete[] field;
-
   
   in.close();
   out.close();
