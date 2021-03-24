@@ -54,20 +54,11 @@ int main() {
   for (int currReq=N-1; currReq>=0; currReq--) {
     static int prevReq = N-2;
     
-    while ( (prevReq >= 0) && (requests[currReq].b < requests[prevReq].e) ) {
+    while ( (prevReq >= 0) && (requests[currReq].b <= requests[prevReq].e) ) {
       prevReq--;
     }
 
     requests[currReq].pr = prevReq+1;
-  }
-
-  // Request test...please remove after test.
-  for(auto it : requests) {
-    out << it.b << " ";
-    out << it.e << " ";
-    out << it.c << " ";
-    out << it.num << " ";
-    out << it.pr << "\n";
   }
 
   Schedule bestSchedule = getBestSchdBefore(N);
@@ -98,7 +89,6 @@ bool schdCompare(int d1, int p1, int d2, int p2) {
 }
 
 Schedule getBestSchdBefore(int n) {
-  cout << n <<"\n";
   if ((n>0) && (bestSchedules[n-1].d != 0)) {
     return bestSchedules[n-1];
   } else if(n==0) {
@@ -109,10 +99,10 @@ Schedule getBestSchdBefore(int n) {
   }
 
   int inclD, inclP, exclD, exclP;
-  inclD = getBestSchdBefore(requests[n-1].pr).d + (requests[n-1].e - requests[n-1].b + 1);
-  inclP = getBestSchdBefore(requests[n-1].pr).p + requests[n-1].c - 10;
   exclD = getBestSchdBefore(n-1).d;
   exclP = getBestSchdBefore(n-1).p;
+  inclD = getBestSchdBefore(requests[n-1].pr).d + (requests[n-1].e - requests[n-1].b + 1);
+  inclP = getBestSchdBefore(requests[n-1].pr).p + requests[n-1].c;
 
   if(requests[n-1].pr > 0) {
     inclP -= 10;
