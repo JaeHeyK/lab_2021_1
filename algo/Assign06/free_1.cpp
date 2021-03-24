@@ -9,21 +9,25 @@ typedef struct _Request {
   int b;  // Beginning day
   int e;  // Ending day
   int c;  // Cost
-  int pr; // Last workable request among previous requests; Order of requests will be determined by sorting
   int num;  //  Request number after sorting
+  int pr; // Last workable request among previous requests; Order of requests will be determined by sorting
 } Request;
 
 typedef struct _Schedule {
   int p;  // Total pay
-  int d;  // Total workday
+  int d = 0;  // Total workday
 } Schedule;
 
 typedef vector<Request>::iterator ReqIt;
 typedef vector<Request>::reverse_iterator ReqRit;
 
 bool reqCompare(const Request&, const Request&);
+bool schdCompare(const Schedule&, const Schedule&);
+Schedule getBestSchdBefore(int);
+
 
 vector<Request> requests;
+vector<Schedule> bestSchedules;
 
 int main() {
   ifstream in("free.inp");
@@ -36,6 +40,9 @@ int main() {
     Request newReq;
     in >> newReq.b >> newReq.e >> newReq.c;
     requests.push_back(newReq);
+
+    Schedule newSchedule;
+    bestSchedules.push_back(newSchedule);
   }
 
   sort(requests.begin(), requests.end(), reqCompare);
@@ -54,15 +61,18 @@ int main() {
     requests[currReq].pr = prevReq+1;
   }
 
-  
-
+  // Request test...please remove after test.
   for(auto it : requests) {
     out << it.b << " ";
     out << it.e << " ";
     out << it.c << " ";
-    out << it.pr << " ";
-    out << it.num << "\n";
+    out << it.num << " ";
+    out << it.pr << "\n";
   }
+
+  Schedule bestSchedule = getBestSchdBefore(N);
+
+  out << bestSchedule.p << " " << bestSchedule.d << "\n";
 
   in.close();
   out.close();
@@ -77,4 +87,44 @@ bool reqCompare(const Request& r1, const Request& r2) {
   } else {
     return r1.e < r2.e;
   }
+}
+
+bool schdCompare(int d1, int p1, int d2, int p2) {
+  if (p1 == p2) {
+    return (d1 < d2);
+  } else {
+    return (p1 > p2);
+  }
+}
+
+Schedule getBestSchdBefore(int n) {
+  cout << n <<"\n";
+  if ((n>0) && (bestSchedules[n-1].d != 0)) {
+    return bestSchedules[n-1];
+  } else if(n==0) {
+    Schedule empty;
+    empty.d = 0;
+    empty.p = 0;
+    return empty;
+  }
+
+  int inclD, inclP, exclD, exclP;
+  inclD = getBestSchdBefore(requests[n-1].pr).d + (requests[n-1].e - requests[n-1].b + 1);
+  inclP = getBestSchdBefore(requests[n-1].pr).p + requests[n-1].c - 10;
+  exclD = getBestSchdBefore(n-1).d;
+  exclP = getBestSchdBefore(n-1).p;
+
+  if(requests[n-1].pr > 0) {
+    inclP -= 10;
+  }
+
+  if (schdCompare(inclD, inclP, exclD, exclP)) {
+    bestSchedules[n-1].d = inclD;
+    bestSchedules[n-1].p = inclP;
+  } else {
+    bestSchedules[n-1].d = exclD;
+    bestSchedules[n-1].p = exclP;
+  }
+
+  return bestSchedules[n-1];
 }
