@@ -9,12 +9,11 @@ typedef struct _Request {
   int b;  // Beginning day
   int e;  // Ending day
   int c;  // Cost
-  int num;  //  Request number after sorting
   int pr; // Last workable request among previous requests; Order of requests will be determined by sorting
 } Request;
 
 typedef struct _Schedule {
-  int p;  // Total pay
+  int p = 0;  // Total pay
   int d = 0;  // Total workday
 } Schedule;
 
@@ -22,7 +21,7 @@ typedef vector<Request>::iterator ReqIt;
 typedef vector<Request>::reverse_iterator ReqRit;
 
 bool reqCompare(const Request&, const Request&);
-bool schdCompare(const Schedule&, const Schedule&);
+bool schdCompare(int, int, int, int);
 Schedule getBestSchdBefore(int);
 
 
@@ -36,6 +35,9 @@ int main() {
   int N;  // Total number of request
   in >> N;
 
+  Schedule emptySchedule;
+  bestSchedules.push_back(emptySchedule);
+
   for (int i=0; i<N; i++) {
     Request newReq;
     in >> newReq.b >> newReq.e >> newReq.c;
@@ -47,9 +49,6 @@ int main() {
 
   sort(requests.begin(), requests.end(), reqCompare);
 
-  for (int req=0; req<N; req++) {
-    requests[req].num = req+1;
-  }
 
   for (int currReq=N-1; currReq>=0; currReq--) {
     static int prevReq = N-2;
@@ -59,6 +58,13 @@ int main() {
     }
 
     requests[currReq].pr = prevReq+1;
+  }
+
+  for(auto it : requests) {
+    out << it.b << " ";
+    out << it.e << " ";
+    out << it.c << " ";
+    out << it.pr << "\n";
   }
 
   Schedule bestSchedule = getBestSchdBefore(N);
@@ -89,13 +95,10 @@ bool schdCompare(int d1, int p1, int d2, int p2) {
 }
 
 Schedule getBestSchdBefore(int n) {
-  if ((n>0) && (bestSchedules[n-1].d != 0)) {
-    return bestSchedules[n-1];
-  } else if(n==0) {
-    Schedule empty;
-    empty.d = 0;
-    empty.p = 0;
-    return empty;
+  if(n==0) {
+    return bestSchedules[0];
+  } else if (bestSchedules[n].d != 0) {
+    return bestSchedules[n];
   }
 
   int inclD, inclP, exclD, exclP;
@@ -109,12 +112,12 @@ Schedule getBestSchdBefore(int n) {
   }
 
   if (schdCompare(inclD, inclP, exclD, exclP)) {
-    bestSchedules[n-1].d = inclD;
-    bestSchedules[n-1].p = inclP;
+    bestSchedules[n].d = inclD;
+    bestSchedules[n].p = inclP;
   } else {
-    bestSchedules[n-1].d = exclD;
-    bestSchedules[n-1].p = exclP;
+    bestSchedules[n].d = exclD;
+    bestSchedules[n].p = exclP;
   }
 
-  return bestSchedules[n-1];
+  return bestSchedules[n];
 }

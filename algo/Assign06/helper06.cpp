@@ -24,8 +24,8 @@ int main() {
 
   out << goal << "\n";
   // shuffle(total.begin(), total.end(), rng);
-  for (int i=0; i<goal;i++) {
-    out << i+1 << " " << i+2 << " " << 20 <<"\n";
+  for (int i=goal-1; i>=0;i--) {
+    out << 1 << " " << 1 << " " << (i+1)*100 <<"\n";
   }
 
   out.close();
