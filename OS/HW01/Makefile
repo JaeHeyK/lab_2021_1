@@ -40,4 +40,4 @@ add_clnt.c add_svc add_xdr.c add.h: add.x
 	rpcgen $(RPCGEN_FLAGS) add.x
 
 clean:
-	rm -f add_client add_client.o add_server add_server.o add_clnt.* add_svc.* add.h
+	rm -f add_client add_client.o add_server add_server.o add_xdr.o add_clnt.* add_svc.* add.h
