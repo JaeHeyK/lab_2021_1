@@ -8,11 +8,11 @@
   승자는 F로 간주됩니다.
 
   만약 선택 가능한 경우의 winState가 모두 0이 아닐 경우,
-  다음 차례에서 상대방이 항상 이길 방법이 있다는 의미이므로 0이 됩니다.
+  다음 차례에서 상대방이 항상 이길 방법이 있다는 의미이므로 현재의 winState는 0이 됩니다.
   반대로 선택 가능한 경우 중 winState가 하나라도 0이라면,
-  그 경우가 바로 상대방이 이길 수 없는 경우이므로 새로운 winState가 됩니다.
+  그 경우가 바로 상대방이 이길 수 없는 경우이므로 현재의 winState에 포함됩니다.
   
-  또한 문제를 분석한 결과
+  또한 문제를 분석한 결과,
   base 조건인 (n < s1)일 때 PASS를 할 수 없으면 지게 되므로,
   즉 (n >= s1)일 때 현재 상태에서 0을 선택하면 항상 질 수 밖에 없으므로,
   base 조건이 아닐 때 현재 상태에서 0을 고르는 경우는 고려하지 않았습니다.
@@ -29,9 +29,9 @@ const int MAX = 100;  // 항아리에 든 돈의 최댓값; 문제에서는 100
 int takes[take+1];    // PASS를 포함한 가져갈 수 있는 액수를 저장할 배열; 0으로 초기화
 int winStates[MAX+1];  // 0의 경우를 포함한 winState를 저장할 배열; -1로 초기화
 
-int getWinState(int currentJug, int prevTake); // 현재 항아리 내 잔액과 이전에 가져간 금액을 이용하여 새로운 winState를 얻어내는 함수
+int getWinState(int currentJug, int prevTake); // 현재 항아리 내 잔액과 이전에 가져간 금액을 이용하여 새로운 winState를 얻어내는 함수; prevTake는 takes의 인덱스 값
 
-char printWinner(int winState);
+char printWinner(int winState); // winState를 읽고 해당하는 승리자를 반환하는 함수
 
 int main() {
   ifstream in("jug.inp");
@@ -52,7 +52,7 @@ int main() {
 }
 
 int getWinState(int currentJug, int prevTake) {
-  if(currentJug < 0) { // currentJug가 음수인 경우는 계산에서 제외해야하므로, 0b0001을 반환
+  if(currentJug < 0) { // currentJug가 음수인 경우는 계산에서 제외해야하므로, (0이 아닌) 0b0001을 반환
     return 0b0001;
   }
 
