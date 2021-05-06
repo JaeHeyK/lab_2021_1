@@ -30,6 +30,7 @@ def main():
 
     # compute the homography matrix to transform the source to the reference
     h, _ = cv2.findHomography(xy_src, xy_ref)
+    
 
     # The current computed value should equal to our precomputed one
     norm_diff = ((h-h_gt)**2).sum()

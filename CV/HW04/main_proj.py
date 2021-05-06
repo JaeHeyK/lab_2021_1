@@ -19,6 +19,8 @@ def main():
 
     # project the src keypoints to the reference frame using homography
     xy_proj = sol.KeypointProjection(xy_src, h)
+    xy_diff = xy_ref-xy_proj
+    print(xy_diff)
 
     # visualize the results
     im_ref = np.array(Image.open('./data/Hanging1.png'))
