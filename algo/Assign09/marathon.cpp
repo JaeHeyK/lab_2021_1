@@ -14,9 +14,8 @@ void dfs(int nd, int dst, string tr) {
         dfs(c, dst+w, tr+(char)(c+'a'));
         vst[c]=0;
       } else if(dst+w==42 && c==0){
-        if(ans.size()<=tr.size()){
+        if(ans.size()<=tr.size())
           ans = tr;
-        }
       }
     }
   }
@@ -27,7 +26,7 @@ int main() {
   ofstream out("marathon.out");
 
   int N,M;
-  in >> N >> M;
+  in>>N>>M;
 
   char s,e;
   int w;
@@ -38,9 +37,12 @@ int main() {
 
   dfs(0,0,"a");
 
-  out<<ans.size()<<"\n";
-  for(char& ch : ans) {
-    out<<ch<<" ";
-  } 
+  if(ans.size()!=0){
+    out<<ans.size()<<"\n";
+    for(char ch:ans)
+      out<<ch<<" ";
+  } else {
+    out<<"None";
+  }
   return 0;
 }
