@@ -2,24 +2,13 @@
 
 using namespace std;
 
-int N, M;
 
 int main() {
-  ifstream in("iron.inp");
-  ofstream out("iron.out");
-  
-  in>>N>>M;
+	int arr[10];
+	memset(arr, 3, sizeof(int)*10);
 
-  char s,e;
-  int w;
-  for(int i=0;i<M;i++) {
-    in>>s>>e>>w;
-  }
+	for (auto& c : arr)
+        cout << c << ' ';	// 50529027
 
-  
-  out << "None";
-  in.close();
-  out.close();
-
-  return 0;
+	return 0;
 }
